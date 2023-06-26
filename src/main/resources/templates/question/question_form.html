@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="/fragment/header :: common_header(~{::title})"></div>
+    <title>Question Form</title>
+</head>
+</head>
+<body>
+<div class="flex justify-center">
+    <div class="w-[1200px] mt-[100px] flex justify-center items-center">
+        <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
+            <div class="mb-[30px] font-bold text-[2rem] flex gap-[10px]">
+                <div>
+                    <label for="error" class="opacity-0">에러</label>
+                </div>
+                <div class="w-[100%] text-center">
+                    <div th:each="err : ${#fields.errors('*')}">
+                        <div class="bg-red-500" th:text="${err}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-[10px] items-center mb-[30px]">
+                <label for="subject" class="font-bold text-[2rem]">제목</label>
+                <input type="text" name="subject" class="h-[50px] w-[500px] border border-blue-600 rounded-md"
+                       th:field="*{subject}">
+            </div>
+            <div class="flex gap-[10px] items-center">
+                <label for="content" class="font-bold text-[2rem]">내용</label>
+                <textarea name="content" class="w-[500px] h-[200px] border border-blue-600 rounded-md"
+                          th:field="*{content}"></textarea>
+            </div>
+            <div class="flex justify-center mt-[30px]">
+                <input type="submit" value="등록"
+                       class="bg-blue-500 text-white border rounded-md font-bold text-[20px] p-[10px]">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

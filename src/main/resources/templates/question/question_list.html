@@ -5,41 +5,37 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Document</title>
+    <div th:replace="/fragment/header :: common_header(~{::title})"></div>
+    <title>Question List</title>
 </head>
 <body>
+<div th:replace="/fragment/nav"></div>
 <div class="flex flex-col items-center">
-    <div>
-        <h1 class="font-bold text-5xl mb-14">MyBoard</h1>
+    <div class="w-[1200px] mb-[50px]">
+        <div class="w-[100%] text-white">
+            <h1 class="font-bold text-5xl mb-14 text-center">MyBoard</h1>
+            <ul class="flex text-center bg-blue-500">
+                <li class="w-[10%] text-[20px] font-bold p-[5px]">번호</li>
+                <li class="w-[60%] text-[20px] font-bold p-[5px]">제목</li>
+                <li class="w-[30%] text-[20px] font-bold p-[5px]">작성일</li>
+            </ul>
+        </div>
+        <div class="w-[100%]">
+            <ul>
+                <div class="flex text-center bg-zinc-200" th:each="question : ${questionList}">
+                    <li class="w-[10%] text-[20px] font-bold p-[5px]" th:text="${question.id}"></li>
+                    <li class="w-[60%] text-[20px] font-bold p-[5px]">
+                        <a href="#" th:text="${question.subject}"></a>
+                    </li>
+                    <li class="w-[30%] text-[20px] font-bold p-[5px]" th:text="${question.createDate}"></li>
+                </div>
+            </ul>
+        </div>
     </div>
-    <div class="w-3/4">
+    <form th:action="@{/question/form}">
         <div class="flex justify-center">
-            <ul class="bg-gray-900 text-white p-5">
-                <li class="inline-block mx-10">
-                    <a href="#">번호</a>
-                </li>
-                <li class="inline-block mx-80">
-                    <a href="#">제목</a>
-                </li>
-                <li class="inline-block mx-20">
-                    <a href="#">작성일</a>
-                </li>
-            </ul>
+            <input type="submit" value="등록" class="bg-blue-500 border rounded-md font-bold text-white text-[20px] p-[10px]">
         </div>
-        <div>
-            <ul class="bg-neutral-200 text-black p-5">
-                <li class="inline-block mx-10">
-                    <a href="#">1</a>
-                </li>
-                <li class="inline-block mx-80">
-                    <a href="#">안녕하세요! 질문 있습니다.</a>
-                </li>
-                <li class="inline-block mx-20">
-                    <a href="#">2023.06.23 14:22:13</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    </form>
 </div>
 </body>
