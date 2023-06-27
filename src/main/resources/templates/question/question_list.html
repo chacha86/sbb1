@@ -11,10 +11,10 @@
 <body>
 <div th:replace="/fragment/nav"></div>
 <div class="flex flex-col items-center">
-    <div class="w-[1200px] mb-[50px]">
+    <div class="w-[75%] mb-[50px]">
         <div class="w-[100%] text-white">
             <h1 class="font-bold text-5xl mb-14 text-center">MyBoard</h1>
-            <ul class="flex text-center bg-blue-500">
+            <ul class="flex text-center bg-gray-800">
                 <li class="w-[10%] text-[20px] font-bold p-[5px]">번호</li>
                 <li class="w-[60%] text-[20px] font-bold p-[5px]">제목</li>
                 <li class="w-[30%] text-[20px] font-bold p-[5px]">작성일</li>
@@ -23,11 +23,11 @@
         <div class="w-[100%]">
             <ul>
                 <div class="flex text-center bg-zinc-200" th:each="question : ${questionList}">
-                    <li class="w-[10%] text-[20px] font-bold p-[5px]" th:text="${question.id}"></li>
-                    <li class="w-[60%] text-[20px] font-bold p-[5px]">
+                    <li class="w-[10%] text-[20px] font-bold p-[5px] overflow-hidden" th:text="${question.id}"></li>
+                    <li class="w-[60%] text-[20px] font-bold p-[5px] overflow-hidden">
                         <a href="#" th:text="${question.subject}"></a>
                     </li>
-                    <li class="w-[30%] text-[20px] font-bold p-[5px]" th:text="${question.createDate}"></li>
+                    <li class="w-[30%] text-[20px] font-bold p-[5px] overflow-hidden" th:text="${question.createDate}"></li>
                 </div>
             </ul>
         </div>
@@ -37,5 +37,20 @@
             <input type="submit" value="등록" class="bg-blue-500 border rounded-md font-bold text-white text-[20px] p-[10px]">
         </div>
     </form>
+    <div class="flex">
+       <div th:with="pageNo=6">
+        <ul class="flex">
+            <li th:each="num : ${#numbers.sequence(pageNo - 5, pageNo - 1)}">
+                <a href="#" th:text="${num}"></a>
+            </li>
+        </ul>
+        <a href="#" th:text="${pageNo}"></a>
+<!--        <ul class="flex">-->
+<!--            <li th:each="num : ${#numbers.sequence(${pageNo + 1}, ${pageNo + 5})}">-->
+<!--                <a href="#" th:text="${num}"></a>-->
+<!--            </li>-->
+<!--        </ul>-->
+       </div>
+    </div>
 </div>
 </body>

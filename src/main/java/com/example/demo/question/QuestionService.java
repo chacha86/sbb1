@@ -1,6 +1,8 @@
 package com.example.demo.question;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,8 +22,8 @@ public class QuestionService {
         questionRepository.save(q1);
     }
 
-    public List<Question> getList() {
-        List<Question> questionList = questionRepository.findAll();
+    public Page<Question> getList(Pageable pageable) {
+        Page<Question> questionList = questionRepository.findAll(pageable);
         return questionList;
     }
 
