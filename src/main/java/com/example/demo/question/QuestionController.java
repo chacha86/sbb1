@@ -1,5 +1,6 @@
 package com.example.demo.question;
 
+import com.example.demo.answer.AnswerForm;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,11 +21,15 @@ public class QuestionController {
     QuestionService questionService;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam (defaultValue = "0") Integer pageNo) {
+    public String list(Model model, @RequestParam (defaultValue = "1") Integer pageNo) {
         Integer itemPerPage = 10;
         Pageable pageable = PageRequest.of(pageNo, itemPerPage);
-        Page<Question> questionList = questionService.getList(pageable);
-        model.addAttribute("questionList", questionList);
+        Page<Question> paging = questionService.getList(pageable);
+        long total = questionService.getTotalCount();
+        model.addAttribute("paging", paging);
+        model.addAttribute("pageNo", pageNo);
+        model.addAttribute("total", total/10);
+
         return "question/question_list";
     }
 
@@ -45,6 +47,13 @@ public class QuestionController {
         questionService.insert(questionForm.getSubject(), questionForm.getContent());
 
         return "redirect:/question/list";
+    }
+    @GetMapping("detail/{questionId}")
+    public String detail(AnswerForm answerForm, @PathVariable("questionId") int id, Model model) {
+        Question question = questionService.getQuestion(id);
+
+        model.addAttribute("question", question);
+        return "question/question_detail";
     }
     @GetMapping("/show")
     public String show() {

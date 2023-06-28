@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.answer.AnswerService;
 import com.example.demo.question.Question;
 import com.example.demo.question.QuestionRepository;
+import com.example.demo.question.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,5 +42,14 @@ class DemoApplicationTests {
 		}
 
 		questionRepository.saveAll(qlist);
+	}
+
+	@Autowired
+	private QuestionService questionService;
+	private AnswerService answerService;
+	@Test
+	void t3() {
+//		Question q1 = questionService.getQuestion(answerForm.getQuestionId());
+//		answerService.create(answerForm.getContent(), q1);
 	}
 }

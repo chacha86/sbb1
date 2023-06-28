@@ -22,35 +22,56 @@
         </div>
         <div class="w-[100%]">
             <ul>
-                <div class="flex text-center bg-zinc-200" th:each="question : ${questionList}">
+                <div class="flex text-center bg-zinc-200" th:each="question : ${paging}">
                     <li class="w-[10%] text-[20px] font-bold p-[5px] overflow-hidden" th:text="${question.id}"></li>
-                    <li class="w-[60%] text-[20px] font-bold p-[5px] overflow-hidden">
-                        <a href="#" th:text="${question.subject}"></a>
+                    <li class="w-[60%] text-[20px] font-bold p-[5px] overflow-hidden flex justify-center items-center">
+                        <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+                        <span class="text-[12px] text-red-600 ml-[7px]" th:text="${#lists.size(question.answerList)}"></span>
                     </li>
-                    <li class="w-[30%] text-[20px] font-bold p-[5px] overflow-hidden" th:text="${question.createDate}"></li>
+                    <li class="w-[30%] text-[20px] font-bold p-[5px] overflow-hidden"
+                        th:text="${question.createDate}"></li>
                 </div>
             </ul>
         </div>
     </div>
     <form th:action="@{/question/form}">
         <div class="flex justify-center">
-            <input type="submit" value="등록" class="bg-blue-500 border rounded-md font-bold text-white text-[20px] p-[10px]">
+            <input type="submit" value="등록"
+                   class="bg-blue-500 border rounded-md font-bold text-white text-[20px] p-[10px]">
         </div>
     </form>
     <div class="flex">
-       <div th:with="pageNo=6">
-        <ul class="flex">
-            <li th:each="num : ${#numbers.sequence(pageNo - 5, pageNo - 1)}">
-                <a href="#" th:text="${num}"></a>
-            </li>
-        </ul>
-        <a href="#" th:text="${pageNo}"></a>
-<!--        <ul class="flex">-->
-<!--            <li th:each="num : ${#numbers.sequence(${pageNo + 1}, ${pageNo + 5})}">-->
-<!--                <a href="#" th:text="${num}"></a>-->
-<!--            </li>-->
-<!--        </ul>-->
-       </div>
+        <div th:with="blockCnt = 5">
+            <div>
+                <ul class="flex">
+                    <li th:if="${paging.number >= blockCnt}" class="border border-zinc-300">
+                        <a th:href="@{|/question/list?pageNo=${paging.number - blockCnt}|}"
+                           class="block p-[10px] font-bold text-blue-500">이전</a>
+                    </li>
+                    <li th:each="num : ${#numbers.sequence(paging.number - blockCnt, paging.number + blockCnt)}"
+                        th:if="${ num > 0 and num < paging.totalPages}" class="border border-zinc-300">
+                        <a th:href="@{|?pageNo=${num}|}" th:if="${num == paging.number}" th:text="${num}"
+                           class="w-[35px] block p-[10px] bg-blue-500 text-white font-bold text-center"></a>
+                        <a th:href="@{|?pageNo=${num}|}" th:unless="${num == paging.number}" th:text="${num}"
+                           class="w-[35px] block p-[10px] font-bold text-blue-500 text-center"></a>
+                    </li>
+                    <li th:if="${paging.number < paging.totalPages - blockCnt}" class="border border-zinc-300">
+                        <a th:href="@{|/question/list?pageNo=${paging.number + blockCnt}|}"
+                           class="block p-[10px] font-bold text-blue-500">다음</a>
+                    </li>
+                </ul>
+            </div>
+            <!--            <div>-->
+            <!--                <a href="#" th:text="${pageNo}"></a>-->
+            <!--            </div>-->
+            <!--            <div>-->
+            <!--                <ul class="flex">-->
+            <!--                    <li th:each="num : ${#numbers.sequence(pageNo + 1, pageNo + 5)}">-->
+            <!--                        <a href="#" th:text="${num}"></a>-->
+            <!--                    </li>-->
+            <!--                </ul>-->
+            <!--            </div>-->
+        </div>
     </div>
 </div>
 </body>

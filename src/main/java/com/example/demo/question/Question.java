@@ -1,5 +1,6 @@
 package com.example.demo.question;
 
+import com.example.demo.answer.Answer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import org.checkerframework.checker.units.qual.Length;
 import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,6 +22,9 @@ public class Question {
     private String subject;
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    private List<Answer> answerList;
     @Column
     private LocalDateTime createDate;
 }

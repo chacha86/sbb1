@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang=kor>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="/fragment/header :: common_header(~{::title})"></div>
+    <title>Question List</title>
+</head>
+<body>
+<div th:replace="/fragment/nav"></div>
+<div class="flex justify-center">
+    <div class="w-[1200px] mt-[100px] flex justify-start items-center">
+        <div class="w-[100%] flex flex-col">
+            <div class="mb-[50px]">
+                <h1 class="block text-[4rem] font-bold border-b border-gray-400 mb-[50px]"
+                    th:text="${question.subject}"></h1>
+                <div class="h-[100px] w-[100%] border border-gray-400 relative">
+                    <div class="pl-[10px]" th:text="${question.content}"></div>
+                    <div class="absolute right-[5%] top-[50%]" th:text="${question.createDate}"></div>
+                </div>
+            </div>
+            <div>
+                <h2 class="block text-[2rem] font-bold border-b border-gray-400 mb-[50px]"
+                    th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h2>
+                <div class="h-[100px] w-[100%] border border-gray-400 mb-[10px] relative"
+                     th:each="answer : ${question.answerList}">
+                    <div class="pl-[10px]" th:text="${answer.content}"></div>
+                    <div class="absolute right-[5%] top-[50%]" th:text="${answer.createDate}"></div>
+                </div>
+            </div>
+            <div>
+                <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post">
+                    <div class="mb-[30px] font-bold text-[2rem] flex gap-[10px]">
+                        <div>
+                            <label for="error" class="opacity-0">에러</label>
+                        </div>
+                        <div class="w-[100%] text-center">
+                            <div th:each="err : ${#fields.errors('*')}">
+                                <div class="bg-red-500" th:text="${err}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <textarea name="content"
+                                  class="h-[200px] border border-blue-600 rounded-md mb-[30px]"></textarea>
+                        <input type="submit" value="등록"
+                               class="inline-block bg-blue-500 border rounded-md font-bold text-white text-[20px] p-[10px]">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
