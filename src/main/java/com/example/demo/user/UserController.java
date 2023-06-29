@@ -29,7 +29,7 @@ public class UserController {
         return "redirect:/question/list";
     }
 
-    @GetMapping("login")
+    @GetMapping("/login")
     public String login() {
         return "login_form";
     }

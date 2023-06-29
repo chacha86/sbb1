@@ -16,7 +16,8 @@
             <h1 class="font-bold text-5xl mb-14 text-center">MyBoard</h1>
             <ul class="flex text-center bg-gray-800">
                 <li class="w-[10%] text-[20px] font-bold p-[5px]">번호</li>
-                <li class="w-[60%] text-[20px] font-bold p-[5px]">제목</li>
+                <li class="w-[50%] text-[20px] font-bold p-[5px]">제목</li>
+                <li class="w-[10%] text-[20px] font-bold p-[5px]">작성자</li>
                 <li class="w-[30%] text-[20px] font-bold p-[5px]">작성일</li>
             </ul>
         </div>
@@ -24,10 +25,11 @@
             <ul>
                 <div class="flex text-center bg-zinc-200" th:each="question : ${paging}">
                     <li class="w-[10%] text-[20px] font-bold p-[5px] overflow-hidden" th:text="${question.id}"></li>
-                    <li class="w-[60%] text-[20px] font-bold p-[5px] overflow-hidden flex justify-center items-center">
+                    <li class="w-[50%] text-[20px] font-bold p-[5px] overflow-hidden flex justify-center items-center">
                         <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
                         <span class="text-[12px] text-red-600 ml-[7px]" th:text="${#lists.size(question.answerList)}"></span>
                     </li>
+                    <li class="w-[10%] text-[20px] font-bold p-[5px] overflow-hidden" th:if="${question.author != null}" th:text="${question.author.loginId}"></li>
                     <li class="w-[30%] text-[20px] font-bold p-[5px] overflow-hidden"
                         th:text="${question.createDate}"></li>
                 </div>

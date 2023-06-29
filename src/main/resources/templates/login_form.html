@@ -11,33 +11,22 @@
 <body>
 <div th:replace="/fragment/nav"></div>
 <div class="width-[1200px] flex flex-col items-center justify-center">
-    <form th:action="@{/user/create}" th:object=${loginForm} method="post">
-        <div class="mb-[30px] font-bold text-[2rem] flex gap-[10px]">
-            <div>
-                <label for="error" class="opacity-0">에러</label>
-            </div>
-            <div class="w-[100%] text-center">
-                <div th:each="err : ${#fields.errors('*')}">
-                    <div class="bg-red-500" th:text="${err}"></div>
-                </div>
-            </div>
+    <form th:action="@{/user/login}" method="post">
+        <div th:if="${param.error}">
+            <div class="bg-red-500">로그인 정보를 다시 입력해주세요.</div>
         </div>
         <div class="flex justify-center my-[30px]">
             <div class="flex flex-col mr-[20px]">
                 <label for="loginId">아이디</label>
                 <label for="passwd1">비밀번호</label>
-                <label for="passwd2">비밀번호 확인</label>
-                <label for="email">이메일</label>
             </div>
             <div class="flex flex-col">
-                <input type="text" name="loginId" class="border border-gray-400" th:field="*{loginId}">
-                <input type="password" name="passwd1" class="border border-gray-400" th:field="*{passwd1}">
-                <input type="password" name="passwd2" class="border border-gray-400" th:field="*{passwd2}">
-                <input type="email" name="email" class="border border-gray-400" th:field="*{email}">
+                <input type="text" name="username" class="border border-gray-400">
+                <input type="password" name="password" class="border border-gray-400">
             </div>
         </div>
         <div class="flex justify-center">
-            <input type="submit" value="회원가입"
+            <input type="submit" value="로그인"
                    class="bg-blue-500 text-white border rounded-md font-bold text-[20px] p-[10px]">
         </div>
     </form>

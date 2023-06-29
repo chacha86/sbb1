@@ -1,6 +1,8 @@
 package com.example.demo.question;
 
 import com.example.demo.answer.AnswerForm;
+import com.example.demo.user.SiteUser;
+import com.example.demo.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequestMapping("/question")
@@ -18,7 +21,9 @@ import java.util.List;
 public class QuestionController {
 
     @Autowired
-    QuestionService questionService;
+    private QuestionService questionService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam (defaultValue = "1") Integer pageNo) {
@@ -39,12 +44,13 @@ public class QuestionController {
     }
 
     @PostMapping("/create")
-    public String create(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+    public String create(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
         if(bindingResult.hasErrors()) {
             return "question/question_form";
         }
 
-        questionService.insert(questionForm.getSubject(), questionForm.getContent());
+        SiteUser user = userService.getUserbyLoginId(principal.getName());
+        questionService.insert(questionForm.getSubject(), questionForm.getContent(), user);
 
         return "redirect:/question/list";
     }

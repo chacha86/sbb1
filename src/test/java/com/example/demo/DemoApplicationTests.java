@@ -1,16 +1,20 @@
 package com.example.demo;
 
 import com.example.demo.answer.AnswerService;
+import com.example.demo.question.DataNotFoundException;
 import com.example.demo.question.Question;
 import com.example.demo.question.QuestionRepository;
 import com.example.demo.question.QuestionService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.event.annotation.PrepareTestInstance;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 class DemoApplicationTests {
@@ -19,15 +23,15 @@ class DemoApplicationTests {
 	QuestionRepository questionRepository;
 	@Test
 	void t1() {
-		System.out.println("test test hihi");
-		Question q1 = new Question();
-		q1.setSubject("배가영");
-		q1.setContent("바부");
-		q1.setCreateDate(LocalDateTime.now());
-
-		questionRepository.save(q1);
+		Optional<Question> qo = questionRepository.findById(11112);
+		if(qo.isPresent()) {
+			System.out.println("hihi");
+		} else {
+			throw new DataNotFoundException("hhhahahahaha");
+		}
 	}
 
+	@BeforeEach()
 	@Test
 	void t2() {
 		String tmpTitle = "제목";
