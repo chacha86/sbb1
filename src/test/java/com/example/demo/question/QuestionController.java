@@ -1,6 +1,5 @@
 package com.example.demo.question;
 
-import com.example.demo.Recommendation.QuestionRecommendation;
 import com.example.demo.answer.AnswerForm;
 import com.example.demo.user.SiteUser;
 import com.example.demo.user.UserService;
@@ -9,15 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RequestMapping("/question")
 @Controller
@@ -29,9 +25,8 @@ public class QuestionController {
     private UserService userService;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam (defaultValue = "0") Integer pageNo) {
+    public String list(Model model, @RequestParam (defaultValue = "1") Integer pageNo) {
         Integer itemPerPage = 10;
-        Sort sort = Sort.by(Sort.Direction.DESC, "createDate");
         Pageable pageable = PageRequest.of(pageNo, itemPerPage);
         Page<Question> paging = questionService.getList(pageable);
         long total = questionService.getTotalCount();
@@ -61,23 +56,12 @@ public class QuestionController {
     @GetMapping("detail/{questionId}")
     public String detail(AnswerForm answerForm, @PathVariable("questionId") int id, Model model) {
         Question question = questionService.getQuestion(id);
-        Long questionRecommendation = questionService.getRecommendationCnt(question);
+
         model.addAttribute("question", question);
-        model.addAttribute("recommCnt", questionRecommendation);
         return "question/question_detail";
     }
     @GetMapping("/show")
     public String show() {
         return "question/question_list";
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/recommend/{id}")
-    public String recommend(Principal principal, @PathVariable("id") int id) {
-        Question question = questionService.getQuestion(id);
-        SiteUser user = userService.getUserbyLoginId(principal.getName());
-        questionService.recommend(user, question);
-
-        return "redirect:/question/list";
     }
 }

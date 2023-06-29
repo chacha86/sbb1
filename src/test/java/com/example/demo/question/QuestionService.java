@@ -1,8 +1,5 @@
 package com.example.demo.question;
 
-import com.example.demo.Recommendation.QuestionRecommendation;
-import com.example.demo.Recommendation.QuestionRecommendationKey;
-import com.example.demo.Recommendation.QuestionRecommendationRepository;
 import com.example.demo.user.SiteUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,8 +14,7 @@ public class QuestionService {
 
     @Autowired
     QuestionRepository questionRepository;
-    @Autowired
-    QuestionRecommendationRepository questionRecommendationRepository;
+
     public Question getQuestion(int id) {
         Optional<Question> optionalQuestion = questionRepository.findById(id);
 
@@ -46,18 +42,5 @@ public class QuestionService {
 
     public long getTotalCount() {
         return questionRepository.count();
-    }
-
-    public void recommend(SiteUser user, Question question) {
-        QuestionRecommendation recommendation = new QuestionRecommendation();
-        recommendation.setCreateDate(LocalDateTime.now());
-        recommendation.setUser(user);
-        recommendation.setQuestion(question);
-        recommendation.setId(new QuestionRecommendationKey(question.getId(), user.getId()));
-        questionRecommendationRepository.save(recommendation);
-    }
-
-    public Long getRecommendationCnt(Question question) {
-        return questionRecommendationRepository.countByQuestion(question);
     }
 }

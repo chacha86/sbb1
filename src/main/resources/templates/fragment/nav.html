@@ -8,7 +8,7 @@
 <body>
 <div class="bg-blue-500" th:fragment="nav">
     <div class="flex justify-between items-center">
-        <h1 class="font-bold text-[2rem] text-white p-[10px]">Logo</h1>
+        <h1 class="font-bold text-[2rem] text-white p-[10px]"><a href="/question/list">Logo</a></h1>
         <a href="/user/create" sec:authorize="isAnonymous()">회원가입</a>
         <a href="/user/login" sec:authorize="isAnonymous()">로그인</a>
         <a href="/user/logout" sec:authorize="isAuthenticated()">로그아웃</a>
