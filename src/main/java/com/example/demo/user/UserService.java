@@ -28,7 +28,6 @@ public class UserService {
         user.setLoginId(loginId);
         user.setPasswd(passwordEncoder.encode(passwd));
         user.setEmail(email);
-        user.setCrateDate(LocalDateTime.now());
 
         userRepository.save(user);
     }

@@ -1,32 +1,37 @@
 package com.example.demo.answer;
 
+import com.example.demo.Recommendation.AnswerRecommendation;
+import com.example.demo.common.BaseEntity;
 import com.example.demo.question.Question;
 import com.example.demo.user.SiteUser;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
-import java.util.logging.SimpleFormatter;
 
 @Entity
 @Data
-public class Answer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Answer extends BaseEntity {
 
     private String content;
-
     @ManyToOne
     private SiteUser author;
     @ManyToOne
     private Question question;
-    @ManyToMany
-    private Set<SiteUser> voter;
 
-    private LocalDateTime createDate;
+    @OneToMany(mappedBy = "answer", cascade=CascadeType.REMOVE)
+    private List<AnswerRecommendation> arlist;
 
+    public void addAnswerRecommendation(AnswerRecommendation recommendation) {
+        recommendation.setAnswer(this);
+        this.arlist.add(recommendation);
+    }
 }

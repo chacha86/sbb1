@@ -27,7 +27,7 @@
                     </div>
                     <div class="absolute bottom-[5%] left-[1%]">
                         <ul class="flex">
-                            <li><a th:href="@{|/question/recommend/${question.id}|}" class="text-gray-500 border border-gray-400 rounded-md p-[5px] mr-[5px]">추천 <span class="bg-green-700 px-[5px] text-[13px] font-bold text-white rounded-[40%]" th:text="${recommCnt}"></span></a></li>
+                            <li><a th:href="@{|/question/recommend/${question.id}|}" class="text-gray-500 border border-gray-400 rounded-md p-[5px] mr-[5px]">추천 <span class="bg-green-700 px-[5px] text-[13px] font-bold text-white rounded-[40%]" th:text="${#lists.size(question.getQrlist())}"></span></a></li>
                             <li><a href="#" class="text-gray-500 border border-gray-400 rounded-md p-[5px] mr-[5px]">수정</a></li>
                             <li><a href="#" class="text-gray-500 border border-gray-400 rounded-md p-[5px] mr-[5px]">삭제</a></li>
                         </ul>
@@ -41,9 +41,16 @@
                      th:each="answer : ${question.answerList}">
                     <div class="pl-[10px]" th:text="${answer.content}"></div>
                     <div class="absolute right-[5%] top-[50%]">
-                        <div class="text-right" th:if="${question.author != null}"
-                             th:text="${question.author.loginId}"></div>
-                        <div th:text="${question.createDate}"></div>
+                        <div class="text-right" th:if="${answer.author != null}"
+                             th:text="${answer.author.loginId}"></div>
+                        <div th:text="${answer.createDate}"></div>
+                    </div>
+                    <div class="absolute bottom-[5%] left-[1%]">
+                        <ul class="flex">
+                            <li><a th:href="@{|/answer/recommend/${answer.id}|}" class="text-gray-500 border border-gray-400 rounded-md p-[5px] mr-[5px]">추천 <span class="bg-green-700 px-[5px] text-[13px] font-bold text-white rounded-[40%]" th:text="${#lists.size(answer.getArlist())}"></span></a></li>
+                            <li><a href="#" class="text-gray-500 border border-gray-400 rounded-md p-[5px] mr-[5px]">수정</a></li>
+                            <li><a href="#" class="text-gray-500 border border-gray-400 rounded-md p-[5px] mr-[5px]">삭제</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

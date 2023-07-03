@@ -1,25 +1,20 @@
 package com.example.demo.question;
 
+import com.example.demo.Recommendation.QuestionRecommendation;
 import com.example.demo.answer.Answer;
+import com.example.demo.common.BaseEntity;
 import com.example.demo.user.SiteUser;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import org.checkerframework.checker.units.qual.Length;
-import org.hibernate.annotations.Type;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-public class Question {
+public class Question extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
     @Column(length = 200)
     private String subject;
     @Column(columnDefinition = "TEXT")
@@ -28,11 +23,9 @@ public class Question {
     @ManyToOne
     private SiteUser author;
 
-    @ManyToMany
-    private Set<SiteUser> voter;
+    @OneToMany(mappedBy = "question", cascade=CascadeType.REMOVE)
+    private List<QuestionRecommendation> qrlist;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
-    @Column
-    private LocalDateTime createDate;
 }

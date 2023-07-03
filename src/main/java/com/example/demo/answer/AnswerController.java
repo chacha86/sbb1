@@ -8,6 +8,7 @@ import com.example.demo.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.checkerframework.checker.units.qual.C;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,8 +36,16 @@ public class AnswerController {
             answerService.create(answerForm.getContent(), q1, user);
         }
 
-        return "question/question_detail";
+        return String.format("redirect:/question/detail/%d", questionId);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/recommend/{id}")
+    public String recommend(Principal principal, @PathVariable("id") int id) {
+        Answer answer = answerService.getAnswer(id);
+        SiteUser user = userService.getUserbyLoginId(principal.getName());
+        answerService.recommend(user, answer);
+        return String.format("redirect:/question/detail/%d", answer.getQuestion().getId());
+    }
 
 }

@@ -3,6 +3,7 @@ package com.example.demo.question;
 import com.example.demo.Recommendation.QuestionRecommendation;
 import com.example.demo.Recommendation.QuestionRecommendationKey;
 import com.example.demo.Recommendation.QuestionRecommendationRepository;
+import com.example.demo.answer.Answer;
 import com.example.demo.user.SiteUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,7 +36,6 @@ public class QuestionService {
         q1.setSubject(subject);
         q1.setContent(content);
         q1.setAuthor(user);
-        q1.setCreateDate(LocalDateTime.now());
         questionRepository.save(q1);
     }
 
@@ -49,8 +49,13 @@ public class QuestionService {
     }
 
     public void recommend(SiteUser user, Question question) {
+        Optional<QuestionRecommendation> qr = questionRecommendationRepository.findByUserAndQuestion(user, question);
+        if(qr.isPresent()) {
+           questionRecommendationRepository.delete(qr.get());
+           return;
+        }
+
         QuestionRecommendation recommendation = new QuestionRecommendation();
-        recommendation.setCreateDate(LocalDateTime.now());
         recommendation.setUser(user);
         recommendation.setQuestion(question);
         recommendation.setId(new QuestionRecommendationKey(question.getId(), user.getId()));

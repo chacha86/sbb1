@@ -8,8 +8,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Data
 public class QuestionRecommendation {
@@ -19,10 +17,9 @@ public class QuestionRecommendation {
     @MapsId("questionId")
     @ManyToOne
     private Question question;
+
     @MapsId("userId")
     @ManyToOne
     private SiteUser user;
-
-    private LocalDateTime createDate;
 }
 

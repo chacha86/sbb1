@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionRecommendationKey implements Serializable {
-    private Integer questionId;
-    private Integer userId;
+public class AnswerRecommendationKey implements Serializable {
+    private Long answerId;
+    private Long userId;
 }

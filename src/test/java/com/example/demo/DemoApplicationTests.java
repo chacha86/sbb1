@@ -51,7 +51,6 @@ class DemoApplicationTests {
 			Question q1 = new Question();
 			q1.setSubject(sb.append("_").append(i).toString());
 			q1.setContent("냉무");
-			q1.setCreateDate(LocalDateTime.now());
 			qlist.add(q1);
 		}
 
@@ -93,19 +92,15 @@ class DemoApplicationTests {
 
 		q1.setSubject("hihi");
 		q1.setContent("byby");
-		q1.setCreateDate(LocalDateTime.now());
 
 		q2.setSubject("hihi2");
 		q2.setContent("byby2");
-		q2.setCreateDate(LocalDateTime.now());
 
 		s1.setLoginId("chacha");
 		s1.setPasswd("ckxowls1!");
-		s1.setCrateDate(LocalDateTime.now());
 
 		s2.setLoginId("chocho");
 		s2.setPasswd("chocho");
-		s2.setCrateDate(LocalDateTime.now());
 
 		userRepository.save(s1);
 		userRepository.save(s2);
@@ -119,24 +114,12 @@ class DemoApplicationTests {
 
 		voterList2.add(s1);
 
-		q1.setVoter(voterList1);
-		q2.setVoter(voterList2);
 		questionRepository.save(q1);
 		questionRepository.save(q2);
 
 
 		Answer answer1 = new Answer();
 		Answer answer2 = new Answer();
-
-
-		answer1.setCreateDate(LocalDateTime.now());
-		answer1.setContent("comment1");
-		answer1.setVoter(voterList1);
-		answer1.setQuestion(q1);
-		answer2.setCreateDate(LocalDateTime.now());
-		answer2.setContent("comment2");
-		answer2.setVoter(voterList2);
-		answer2.setQuestion(q1);
 
 		answerRepository.save(answer1);
 		answerRepository.save(answer2);

@@ -1,6 +1,5 @@
 package com.example.demo.question;
 
-import com.example.demo.Recommendation.QuestionRecommendation;
 import com.example.demo.answer.AnswerForm;
 import com.example.demo.user.SiteUser;
 import com.example.demo.user.UserService;
@@ -17,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RequestMapping("/question")
 @Controller
@@ -61,9 +59,7 @@ public class QuestionController {
     @GetMapping("detail/{questionId}")
     public String detail(AnswerForm answerForm, @PathVariable("questionId") int id, Model model) {
         Question question = questionService.getQuestion(id);
-        Long questionRecommendation = questionService.getRecommendationCnt(question);
         model.addAttribute("question", question);
-        model.addAttribute("recommCnt", questionRecommendation);
         return "question/question_detail";
     }
     @GetMapping("/show")
@@ -78,6 +74,6 @@ public class QuestionController {
         SiteUser user = userService.getUserbyLoginId(principal.getName());
         questionService.recommend(user, question);
 
-        return "redirect:/question/list";
+        return String.format("redirect:/question/detail/%d",id);
     }
 }
