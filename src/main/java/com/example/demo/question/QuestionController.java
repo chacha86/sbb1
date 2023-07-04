@@ -40,6 +40,7 @@ public class QuestionController {
         return "question/question_list";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/form")
     public String questionForm(QuestionForm questionForm) {
         return "question/question_form";
