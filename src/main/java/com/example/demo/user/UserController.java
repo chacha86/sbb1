@@ -33,4 +33,9 @@ public class UserController {
     public String login() {
         return "login_form";
     }
+
+    @GetMapping("/kakaoout")
+    public String kakaoout() {
+        return "kakaoout";
+    }
 }

@@ -7,12 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
 public class HelloController {
     @Autowired
     QuestionRepository questionRepository;
+    @GetMapping("/")
+    public String index(Principal principal) {
+        System.out.println(principal.getName());
+        return "redirect:/question/list";
+    }
     @GetMapping("/extest")
     public String extest() {
         Optional<Question> oq = questionRepository.findById(123123);
