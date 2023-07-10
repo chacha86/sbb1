@@ -5,8 +5,8 @@ spring:
   datasource:
     url: jdbc:mariadb://dev.ramgibauk.com:3306/t1?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
     driverClassName: org.mariadb.jdbc.Driver
-    username: chacha
-    password: ckxowls1!
+    username: ${DB_USER}
+    password: ${DB_PASS}
 
   jpa:
     hibernate:
@@ -19,3 +19,20 @@ spring:
   devtools:
     livereload:
       enabled: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: a0072d1885fe5cbccfeb539059439e9f
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8088/login/oauth2/code/kakao
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+
+            user-name-attribute: id

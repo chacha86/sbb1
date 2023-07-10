@@ -18,7 +18,7 @@
                     th:text="${question.subject}"></h1>
                 <div class="h-[100px] w-[100%] border border-gray-400 relative">
                     <div >
-                        <div class="pl-[10px]" th:text="${question.content}"></div>
+                        <div class="pl-[10px]" th:utext="${question.content}"></div>
                         <div class="absolute right-[5%] top-[50%]">
                             <div class="text-right" th:if="${question.author != null}"
                                  th:text="${question.author.loginId}"></div>
@@ -78,4 +78,10 @@
     </div>
 </div>
 </body>
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+        })
+    });
+</script>
 </html>

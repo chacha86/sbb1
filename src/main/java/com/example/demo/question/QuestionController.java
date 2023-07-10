@@ -10,10 +10,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -27,12 +33,14 @@ public class QuestionController {
     private UserService userService;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam (defaultValue = "0") Integer pageNo) {
+    public String list(Model model, @RequestParam (defaultValue = "0") Integer pageNo, Authentication authentication) {
+
+
         Integer itemPerPage = 10;
-        Sort sort = Sort.by(Sort.Direction.DESC, "createDate");
         Pageable pageable = PageRequest.of(pageNo, itemPerPage);
         Page<Question> paging = questionService.getList(pageable);
         long total = questionService.getTotalCount();
+
         model.addAttribute("paging", paging);
         model.addAttribute("pageNo", pageNo);
         model.addAttribute("total", total/10);
@@ -40,6 +48,7 @@ public class QuestionController {
         return "question/question_list";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/form")
     public String questionForm(QuestionForm questionForm) {
         return "question/question_form";
@@ -75,5 +84,14 @@ public class QuestionController {
         questionService.recommend(user, question);
 
         return String.format("redirect:/question/detail/%d",id);
+    }
+
+    @PostMapping("/imgup")
+    @ResponseBody
+    public String imgup(@RequestParam MultipartFile req) {
+        System.out.println("sdfsdf");
+        System.out.println(req);
+
+        return "{\"url\" : \"/img/1.jpg\"}";
     }
 }
