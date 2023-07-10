@@ -22,12 +22,12 @@
             </div>
             <div class="flex gap-[10px] items-center mb-[30px]">
                 <label for="subject" class="font-bold text-[2rem]">제목</label>
-                <input type="text" name="subject" class="h-[50px] w-[500px] border border-blue-600 rounded-md"
+                <input type="text" name="subject" class="h-[50px] w-[800px] border border-blue-600 rounded-md"
                        th:field="*{subject}">
             </div>
             <div class="flex gap-[10px] items-center">
                 <label for="content" class="font-bold text-[2rem]">내용</label>
-                <textarea name="content" class="w-[500px] h-[200px] border border-blue-600 rounded-md"
+                <textarea id="summernote" name="content"
                           th:field="*{content}"></textarea>
             </div>
             <div class="flex justify-center mt-[30px]">
@@ -37,5 +37,35 @@
         </form>
     </div>
 </div>
+<script>
+    function uploadImage(img) {
+        formData = new FormData();
+        formData.append("file", img);
+        fetch("/question/imgup", {
+            method: "POST",
+            body: formData,
+            contentType: false,
+            processData: false
+
+        })
+            .then(response => response.json())
+    }
+
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            callbacks: {
+                onImageUpload: function(files) {
+                    uploadImage(files[0]);
+                    $summernote.summernote('insertNode', imgNode);
+                }
+            },
+            height: 500,                 // set editor height
+            width: 800,
+            minHeight: null,             // set minimum height of editor
+            maxHeight: null,             // set maximum height of editor
+            focus: true,
+        })
+    });
+</script>
 </body>
 </html>

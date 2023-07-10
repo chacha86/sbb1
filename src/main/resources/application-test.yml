@@ -5,8 +5,8 @@ spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/t4?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
     driverClassName: org.mariadb.jdbc.Driver
-    username: chacha
-    password: ckxowls1!
+    username: ${DB_USER}
+    password: ${DB_PASS}
 
   jpa:
     hibernate:

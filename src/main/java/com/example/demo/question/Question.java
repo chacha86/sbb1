@@ -17,7 +17,8 @@ public class Question extends BaseEntity {
 
     @Column(length = 200)
     private String subject;
-    @Column(columnDefinition = "TEXT")
+
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne
