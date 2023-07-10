@@ -88,10 +88,8 @@ public class QuestionController {
 
     @PostMapping("/imgup")
     @ResponseBody
-    public String imgup(@RequestParam MultipartFile req) {
-        System.out.println("sdfsdf");
-        System.out.println(req);
+    public String imgup(@RequestParam("file") MultipartFile file) {
 
-        return "{\"url\" : \"/img/1.jpg\"}";
+        return "{\"url\" : \"http://localhost:8088/1688989207634_data.png\"}";
     }
 }

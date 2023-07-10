@@ -16,13 +16,13 @@ public class UserController {
 
     @GetMapping("/create")
     public String create(UserForm userForm) {
-        return "signup_form";
+        return "auth/signup_form";
     }
     @PostMapping("/create")
     public String create(@Valid UserForm userForm, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return "signup_form";
+            return "auth/signup_form";
         }
         userService.create(userForm.getLoginId(), userForm.getPasswd1(), userForm.getEmail());
 
@@ -31,11 +31,6 @@ public class UserController {
 
     @GetMapping("/login")
     public String login() {
-        return "login_form";
-    }
-
-    @GetMapping("/kakaoout")
-    public String kakaoout() {
-        return "kakaoout";
+        return "auth/login_form";
     }
 }

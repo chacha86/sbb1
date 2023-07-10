@@ -44,11 +44,16 @@
         fetch("/question/imgup", {
             method: "POST",
             body: formData,
-            contentType: false,
-            processData: false
-
         })
             .then(response => response.json())
+            .then(data => {
+                // 서버에서 받은 이미지 URL을 에디터에 삽입합니다.
+                var url = data.url;
+                $('#summernote').summernote('insertImage', url);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 
     $(document).ready(function() {
@@ -56,7 +61,6 @@
             callbacks: {
                 onImageUpload: function(files) {
                     uploadImage(files[0]);
-                    $summernote.summernote('insertNode', imgNode);
                 }
             },
             height: 500,                 // set editor height
