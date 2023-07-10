@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+</head>
+<body>
+<div id="editor"></div>
+<script>
+    const editor = new toastui.Editor({
+        el: document.querySelector('#editor'),
+        initialEditType: 'markdown',
+        previewStyle: 'vertical',
+        height: '500px',
+        initialValue: 'hello world!'
+    });
+</script>
+</body>
+</html>

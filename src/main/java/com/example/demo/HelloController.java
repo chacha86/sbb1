@@ -39,6 +39,12 @@ public class HelloController {
         return "/fragment/nav.html";
     }
 
+    @GetMapping("/toast")
+    public String toast() {
+        return "test/toast_test";
+    }
+
+
 //    /sakljdflaksjfd;lkdfasdfaklsdfjklasdjfaasdfkjlksajdfklj
     //sdfsdfsdf
 }

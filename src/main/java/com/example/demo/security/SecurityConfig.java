@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +28,7 @@ public class SecurityConfig {
         )
                 .permitAll()
                 .and()
+                .csrf().disable()
                 .formLogin()
                 .loginPage("/user/login").defaultSuccessUrl("/question/list")
                 .and()

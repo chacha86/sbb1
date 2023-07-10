@@ -11,9 +11,8 @@
         <h1 class="font-bold text-[2rem] text-white p-[10px]"><a href="/question/list">Logo</a></h1>
         <a href="/user/create" sec:authorize="isAnonymous()">회원가입</a>
         <a href="/user/login" sec:authorize="isAnonymous()">로그인</a>
-        <a href="/oauth2/authorization/kakao" sec:authorize="!hasRole('ROLE_KAKAO')">카카오 로그인</a>
-        <a href="/user/logout" sec:authorize="!hasRole('ROLE_KAKAO') and isAuthenticated()">로그아웃</a>
-        <a href="https://kauth.kakao.com/oauth/logout?client_id=a0072d1885fe5cbccfeb539059439e9f&logout_redirect_uri=http://localhost:8088/user/logout" sec:authorize="hasRole('ROLE_KAKAO') and isAuthenticated()">카카오 로그아웃</a>
+        <a href="/oauth2/authorization/kakao" sec:authorize="isAnonymous()">카카오 로그인</a>
+        <a href="/user/logout" sec:authorize="isAuthenticated()">로그아웃</a>
         <a href="">
             <div class="h-[5px] w-[35px] bg-gray-600 mb-[5px] mr-[10px]"></div>
             <div class="h-[5px] w-[35px] bg-gray-600 mb-[5px] mr-[10px]"></div>

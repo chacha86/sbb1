@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.security;
 
 import com.example.demo.user.SiteUser;
 import com.example.demo.user.UserRepository;
