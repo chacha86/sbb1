@@ -25,8 +25,9 @@ spring:
       client:
         registration:
           kakao:
-            client-id: a0072d1885fe5cbccfeb539059439e9f
-            redirect-uri: http://localhost:8088/login/auth2/code/kakao
+            clientId: a0072d1885fe5cbccfeb539059439e9f
+            client-name: Kakao
+            redirect-uri: http://localhost:8088/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             scope: profile_nickname,account_email
         provider:

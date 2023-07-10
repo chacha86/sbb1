@@ -27,6 +27,11 @@ public class HelloController {
     @Autowired
     QuestionRepository questionRepository;
 
+    @GetMapping("/")
+    public String index() {
+
+        return "redirect:/question/list";
+    }
     @GetMapping("/extest")
     public String extest() {
         Optional<Question> oq = questionRepository.findById(123123);

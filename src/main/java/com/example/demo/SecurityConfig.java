@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.user.SiteUser;
+import com.example.demo.user.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,18 +12,20 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -31,18 +36,22 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.*;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import static org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+//    @Autowired
+//    CustomerOAuth2UserService customOAuth2UserService;
     @Autowired
-    CustomerOAuth2UserService customOAuth2UserService;
+    private UserRepository userRepository;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -70,11 +79,40 @@ public class SecurityConfig {
                         .loginPage("/user/login")
                         .userInfoEndpoint(
                                 userInfoEndpoint -> userInfoEndpoint
-                                        .userService(customOAuth2UserService)
-                        )
-			);
+                                        .userService(oauth2UserService()))
+                        );
+//			);
 
         return http.build();
+    }
+//    @Bean
+//    public WebClient rest(ClientRegistrationRepository clients, OAuth2AuthorizedClientRepository authz) {
+//        ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2 =
+//                new ServletOAuth2AuthorizedClientExchangeFilterFunction(clients, authz);
+//        return WebClient.builder()
+//                .filter(oauth2).build();
+//    }
+
+    @Bean
+    @Transactional
+    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
+        DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
+        System.out.println("sldfkjlskdjflksj");
+        return request -> {
+
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add((GrantedAuthority) () -> "KAKAO_USER");
+            OAuth2User user = delegate.loadUser(request);
+            System.out.println(user.getName());
+            System.out.println(request.getClientRegistration().getRegistrationId());
+            if (!"kakao".equals(request.getClientRegistration().getRegistrationId())) {
+                return user;
+            }
+            else {
+                userRepository.save(new SiteUser(user.getName(), null, authorities));
+                return user;
+            }
+        };
     }
 
     @Bean
