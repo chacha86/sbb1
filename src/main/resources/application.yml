@@ -28,11 +28,10 @@ spring:
             client-id: a0072d1885fe5cbccfeb539059439e9f
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8088/login/oauth2/code/kakao
-
+            scope: profile_nickname,account_email
         provider:
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
-
             user-name-attribute: id

@@ -132,6 +132,14 @@ class DemoApplicationTests {
 		questionRepository.save(q1);
 	}
 
+	void t6() {
+		String targetUrl = "https://kauth.kakao.com/oauth/authorize";
+		String client_id = "a0072d1885fe5cbccfeb539059439e9f";
+		String redirect_uri = "http://localhost:8088/login/auth2/code/kakao";
+		String response_type = "code";
+
+
+	}
 }
 
 interface PersonRepository extends JpaRepository<Person, Long> {
