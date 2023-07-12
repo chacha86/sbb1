@@ -39,3 +39,4 @@ out/
 ### My File ###
 /init.sh
 /src/main/resources/conf/user.properties
+src/main/resources/conf/user.properties
