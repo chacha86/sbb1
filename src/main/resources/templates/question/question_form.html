@@ -47,6 +47,8 @@
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
+                console.log()
                 // 서버에서 받은 이미지 URL을 에디터에 삽입합니다.
                 var url = data.url;
                 $('#summernote').summernote('insertImage', url);

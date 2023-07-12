@@ -103,31 +103,26 @@ public class HelloController {
         return "test/upload_test_form";
     }
 
-    @PostMapping("imgup")
-    public String imgup(@RequestParam("file") MultipartFile file) {
+//    @PostMapping("imgup")
+//    public String imgup(@RequestParam("file") MultipartFile file) {
+//
+//        String targetDir = "C:/work/img/";
+//        File tmp = new File(targetDir);
+//
+//        if (!tmp.exists() && !tmp.isFile()) {
+//            tmp.mkdirs();
+//        }
+//        String filename = getUniqueFile(file.getOriginalFilename());
+//        String filePath = targetDir + filename;
+//
+//        try {
+//            file.transferTo(new File(filePath));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        return "redirect:/question/list";
+//    }
 
-        String targetDir = "C:/work/img/";
-        File tmp = new File(targetDir);
 
-        if (!tmp.exists() && !tmp.isFile()) {
-            tmp.mkdirs();
-        }
-        String filename = getUniqueFile(file.getOriginalFilename());
-        String filePath = targetDir + filename;
-
-        try {
-            file.transferTo(new File(filePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return "redirect:/question/list";
-    }
-
-    private String getUniqueFile(String filename) {
-        long millis = System.currentTimeMillis();
-        String result = millis + "_" + filename;
-
-        return result;
-    }
 }

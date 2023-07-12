@@ -1,6 +1,9 @@
 server:
   port: 8088
 
+path:
+  img: C:/work/img
+
 spring:
   datasource:
     url: jdbc:mariadb://dev.ramgibauk.com:3306/t1?serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
