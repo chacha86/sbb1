@@ -1,15 +1,21 @@
 package com.example.demo.test;
 
+import com.example.demo.common.EmailService;
 import com.example.demo.question.DataNotFoundException;
 import com.example.demo.question.Question;
 import com.example.demo.question.QuestionRepository;
 import com.sun.jna.platform.win32.Sspi;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -19,11 +25,14 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
 
 @Controller
 public class HelloController {
     @Autowired
     QuestionRepository questionRepository;
+    @Autowired
+    EmailService emailService;
 
     @GetMapping("/")
     public String index(Principal principal) {
@@ -124,5 +133,11 @@ public class HelloController {
 //        return "redirect:/question/list";
 //    }
 
+    @GetMapping("/mailtest")
+    @ResponseBody
+    public String mailtest() {
+        emailService.sendMail("taejin0619@naver.com", "이건 테스트용 메일이야!", "아주 잘 가는 구먼!!");
+        return "메일 발송 성공!";
+    }
 
 }

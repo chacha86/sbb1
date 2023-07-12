@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### My File ###
+init.sh
+/src/main/resources/conf/user.properties

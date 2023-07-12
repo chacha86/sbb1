@@ -4,9 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("user")
@@ -32,5 +30,26 @@ public class UserController {
     @GetMapping("/login")
     public String login() {
         return "auth/login_form";
+    }
+
+    @GetMapping("/find/{target}")
+    public String findForm(@PathVariable("target") String target, FindForm findForm) {
+        if(target.equals("id"))
+            return "auth/find_id_form";
+        else if(target.equals("pw"))
+            return "auth/find_pw_form";
+        else
+            return "redirect:/user/login";
+    }
+    @PostMapping("/find/{target}")
+    public String doFind(@PathVariable("target") String target, @Valid FindForm findForm,
+                         BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            return "auth/find_" + target + "_form";
+        }
+
+        String destination = "auth/find_" + target + "_form";
+        return "redirect:/question/list";
     }
 }
