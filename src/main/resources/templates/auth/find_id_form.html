@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang=kor>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="/fragment/header :: common_header(~{::title})"></div>
+    <title>find Id</title>
+</head>
+<body>
+<div th:replace="/fragment/nav"></div>
+<div class="width-[1200px] flex flex-col items-center justify-center text-center">
+    <form th:action="@{/user/find/id}" th:object="${findForm}" method="post">
+        <div class="w-[100%] text-center">
+            <div th:each="err : ${#fields.errors('*')}">
+                <div class="bg-red-500" th:text="${err}"></div>
+            </div>
+        </div>
+        <div class="flex items-center mr-[20px]">
+            <div>
+                <label for="email">이메일</label>
+                <input type="text" name="email" class="border border-gray-400 m-[15px]">
+                <div class="bg-blue-500 text-white border rounded-md font-bold text-[20px] p-[10px] my-[20px]">
+                    <input type="submit" value="인증번호받기"/>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form action="/user/cert">
+        <label for="chkno">인증번호</label>
+        <input type="text" name="chkno" class="border border-gray-400 m-[15px]">
+        <input type="submit" value="찾기"
+               class="bg-blue-500 text-white border rounded-md font-bold text-[20px] p-[10px] my-[20px]">
+    </form>
+</div>
+</body>
+</html>

@@ -10,6 +10,8 @@
     <div class="flex justify-between items-center">
         <h1 class="font-bold text-[2rem] text-white p-[10px]"><a href="/question/list">Logo</a></h1>
         <a href="/user/create" sec:authorize="isAnonymous()">회원가입</a>
+        <a href="/user/find/id" sec:authorize="isAnonymous()">아이디 찾기</a>
+        <a href="/user/find/pw" sec:authorize="isAnonymous()">비밀번호 찾기</a>
         <a href="/user/login" sec:authorize="isAnonymous()">로그인</a>
         <a href="/oauth2/authorization/kakao" sec:authorize="isAnonymous()">카카오 로그인</a>
         <a href="/user/logout" sec:authorize="isAuthenticated()">로그아웃</a>
