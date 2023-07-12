@@ -1,5 +1,0 @@
-git config user.name "chacha86"
-git config user.email "taejincha0619@gmail.com"
-alias src="cd /c/ctj/toy2/src/main/java/com/example/demo"
-alias res="cd /c/ctj/toy2/src/main/resources"
-alias root="cd /c/ctj/toy2"
